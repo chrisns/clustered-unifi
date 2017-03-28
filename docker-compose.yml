@@ -1,0 +1,33 @@
+version: "3"
+services:
+  unifi:
+    image: jacobalberty/unifi:latest
+    networks:
+      - proxy
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - com.df.notify=true
+        - com.df.distribute=true
+        - com.df.serviceDomain=unifi.p.cns.me
+        - com.df.servicePath=/
+        - com.df.port=8080
+        - com.df.redirectWhenHttpProto=true
+    volumes:
+      - data:/var/lib/unifi
+    ports:
+      - 8443:8443
+    environment:
+      - TZ=Europe/London
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  data:
+    driver: nfs
+    driver_opts:
+      share: "192.168.0.3:/volume2/cluster/unifi"
+
