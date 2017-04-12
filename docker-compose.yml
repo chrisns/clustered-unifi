@@ -27,7 +27,5 @@ networks:
 
 volumes:
   data:
-    driver: nfs
-    driver_opts:
-      share: "192.168.0.3:/volume2/cluster/unifi"
+    driver: glusterfs
 
